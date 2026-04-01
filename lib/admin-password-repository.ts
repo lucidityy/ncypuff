@@ -1,25 +1,10 @@
-import { Redis } from "@upstash/redis";
 import { promises as fs } from "fs";
 import path from "path";
 
+import { getRedis } from "@/lib/redis";
+
 const REDIS_KEY = "app:admin:password:v1";
 const DEV_FILE = path.join(process.cwd(), "data", "admin-password-override.json");
-
-let redis: Redis | null = null;
-
-function getRedisCredentials(): { url: string; token: string } | null {
-  const url = (process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL)?.trim();
-  const token = (process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN)?.trim();
-  if (!url || !token) return null;
-  return { url, token };
-}
-
-function getRedis(): Redis | null {
-  const creds = getRedisCredentials();
-  if (!creds) return null;
-  if (!redis) redis = new Redis({ url: creds.url, token: creds.token });
-  return redis;
-}
 
 type OverrideFile = { password: string };
 

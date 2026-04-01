@@ -34,6 +34,10 @@ export async function PUT(
   }
 
   const existing = products[idx];
+  if (!existing) {
+    return NextResponse.json({ error: "Produit introuvable" }, { status: 404 });
+  }
+
   const updates = parsed.data;
 
   // Regenerate slug if name changed
@@ -45,10 +49,22 @@ export async function PUT(
 
   const updated: Product = {
     ...existing,
-    ...updates,
+    name: updates.name ?? existing.name,
+    subtitle: updates.subtitle ?? existing.subtitle,
+    category: updates.category ?? existing.category,
+    shortDescription: updates.shortDescription ?? existing.shortDescription,
+    longDescription: updates.longDescription ?? existing.longDescription,
+    price: updates.price ?? existing.price,
+    prices: updates.prices ?? existing.prices,
+    puffs: updates.puffs ?? existing.puffs,
+    flavors: updates.flavors ?? existing.flavors,
+    image: updates.image ?? existing.image,
+    stock: updates.stock ?? existing.stock,
+    featured: updates.featured ?? existing.featured,
+    format: updates.format ?? existing.format,
+    tags: (updates.tags ?? existing.tags) as Product["tags"],
     id: existing.id,
-    slug,
-    tags: (updates.tags ?? existing.tags) as Product["tags"]
+    slug
   };
 
   products[idx] = updated;

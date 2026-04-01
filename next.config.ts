@@ -4,7 +4,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  /** Évite que Next prenne un lockfile parent (ex. pnpm à la racine user) comme racine du tracing. */
+  poweredByHeader: false,
+  compress: true,
+  /** Prevents Next from picking a parent lockfile as the tracing root. */
   outputFileTracingRoot: path.join(process.cwd()),
   images: {
     remotePatterns: [
@@ -16,7 +18,8 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com"
       }
-    ]
+    ],
+    formats: ["image/avif", "image/webp"]
   }
 };
 

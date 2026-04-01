@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { CheckCircle2, PackageX, ArrowLeft, PackageSearch, ShoppingBag } from "lucide-react";
+import { CheckCircle2, PackageX, ArrowLeft, PackageSearch, ShoppingBag, Zap, Droplets } from "lucide-react";
 
 import { ProductGrid } from "@/components/product/product-grid";
 import { ProductsLoadGate } from "@/components/product/products-load-gate";
@@ -80,29 +80,70 @@ function ProductDetailContent({
       </Link>
 
       <div className="relative -mx-4 aspect-square overflow-hidden rounded-b-3xl bg-surface">
-        {/* eslint-disable-next-line @next/next/no-img-element -- external product URLs */}
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full w-full object-cover"
-        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+
+        {product.puffs && (
+          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-accent/90 px-2.5 py-1 text-[11px] font-extrabold text-background shadow-neon backdrop-blur-sm">
+            <Zap size={11} strokeWidth={3} />
+            {product.puffs} puffs
+          </span>
+        )}
       </div>
 
       <div className="space-y-2">
         <Badge>{product.category}</Badge>
-        <h1 className="font-display text-2xl tracking-wide text-foreground">
+        <h1 className="font-display text-2xl font-extrabold tracking-tight text-foreground">
           {product.name}
         </h1>
-        <p className="font-display text-xl text-accent neon-text">
-          {formatPrice(product.price)}
-          <span className="text-sm font-sans font-semibold text-foreground-muted"> / unit</span>
-        </p>
+        {product.subtitle && (
+          <p className="text-xs font-semibold uppercase tracking-widest text-foreground-muted">
+            {product.subtitle}
+          </p>
+        )}
         <p className="text-sm leading-relaxed text-foreground-muted">{product.shortDescription}</p>
       </div>
 
+      {/* Tiered pricing */}
+      {product.prices?.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {product.prices.map((tier) => (
+            <div
+              key={tier.qty}
+              className="flex items-baseline gap-1.5 rounded-2xl bg-accent/10 px-3.5 py-2 neon-border"
+            >
+              <span className="text-xs font-bold text-foreground-muted">{tier.qty}x</span>
+              <span className="font-display text-lg font-extrabold text-accent neon-text">
+                {formatPrice(tier.price)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Flavors */}
+      {product.flavors?.length > 0 && (
+        <div className="space-y-2 rounded-2xl bg-surface p-4 neon-border">
+          <div className="flex items-center gap-1.5 text-foreground-muted">
+            <Droplets size={14} strokeWidth={2} />
+            <span className="text-xs font-bold uppercase tracking-widest">Parfums disponibles</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {product.flavors.map((flavor) => (
+              <span
+                key={flavor}
+                className="rounded-full bg-surface-raised px-2.5 py-1 text-[11px] font-semibold text-foreground/80"
+              >
+                {flavor}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="space-y-3 rounded-2xl bg-surface p-4 neon-border">
-        <h2 className="font-display text-base tracking-wide text-accent">Détails</h2>
+        <h2 className="font-display text-base font-bold tracking-tight text-accent">Détails</h2>
         <p className="text-sm leading-relaxed text-foreground-muted">{product.longDescription}</p>
         <div className="flex gap-4 border-t border-accent/10 pt-3">
           <div>
@@ -128,7 +169,7 @@ function ProductDetailContent({
         <div className="mb-4 flex items-end justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <p className="text-2xs font-bold uppercase tracking-wider text-accent/90">Quantité</p>
-            <p className="truncate font-display text-xl tabular-nums leading-tight text-foreground">
+            <p className="truncate font-display text-xl font-extrabold tabular-nums leading-tight text-foreground">
               {formatPrice(product.price * quantity)}
             </p>
             <p className="text-2xs text-foreground-muted">pour {formatQuantity(quantity)}</p>
@@ -138,7 +179,7 @@ function ProductDetailContent({
         <Button
           type="button"
           size="lg"
-          className="h-14 w-full gap-2.5 font-display text-base font-bold tracking-wide shadow-neon"
+          className="h-14 w-full gap-2.5 font-display text-base font-bold tracking-tight shadow-neon"
           onClick={() => addItem(product, quantity)}
           disabled={!inStock}
         >

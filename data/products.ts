@@ -3,63 +3,87 @@ import type { Product } from "@/types/product";
 export const PRODUCTS: Product[] = [
   {
     id: "p-1",
-    slug: "classic-tee-black",
-    name: "Classic Tee — Black",
-    category: "Clothing",
-    shortDescription: "Essential everyday t-shirt in premium cotton.",
+    slug: "ehose-x-60k",
+    name: "E-HOSE X 60K",
+    subtitle: "AL FAKHER • Crown Bar",
+    category: "Puffs",
+    shortDescription: "Hookah. Evolved. 60 000 puffs rechargeable.",
     longDescription:
-      "A wardrobe staple crafted from 100% organic cotton. Pre-shrunk, comfortable fit with reinforced seams.",
-    price: 29.9,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80",
-    stock: 50,
+      "Le monstre. 60 000 puffs, design hookah premium, batterie longue durée rechargeable USB-C. Saveurs intenses et vapeur ultra-dense. Le top du top.",
+    price: 25,
+    prices: [
+      { qty: 1, price: 25 },
+      { qty: 2, price: 40 }
+    ],
+    puffs: "60 000",
+    flavors: [
+      "Fruit rouge myrtille",
+      "Lush ice",
+      "Fraise punch",
+      "Gum mint",
+      "Space dream (myrtille orange)"
+    ],
+    image: "/brand/ehose-60k.jpg",
+    stock: 80,
     featured: true,
-    format: "M",
-    tags: ["Best Seller", "New"]
+    format: "60K puffs",
+    tags: ["Best Seller", "Popular"]
   },
   {
     id: "p-2",
-    slug: "leather-wallet",
-    name: "Leather Wallet",
-    category: "Accessories",
-    shortDescription: "Handcrafted slim wallet in full-grain leather.",
+    slug: "megamax-40k",
+    name: "MEGAMAX 40K",
+    subtitle: "AL FAKHER • Crown Bar",
+    category: "Puffs",
+    shortDescription: "More clouds. More moments. 40 000 puffs v2.0.",
     longDescription:
-      "Minimalist bifold wallet with 6 card slots and a bill compartment. Ages beautifully with use.",
-    price: 49.0,
-    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1200&q=80",
-    stock: 25,
+      "Beyond Max. Format compact, 40 000 puffs, v2.0. Le rapport qualité/prix imbattable. USB-C, design ergonomique, LED intégrée.",
+    price: 20,
+    prices: [
+      { qty: 1, price: 20 },
+      { qty: 3, price: 50 }
+    ],
+    puffs: "40 000",
+    flavors: [
+      "Raisin fruit rouge",
+      "Cerise",
+      "Myrtille menthe",
+      "Myrtille cerise",
+      "Fruit rouge"
+    ],
+    image: "/brand/megamax-40k.jpg",
+    stock: 100,
     featured: true,
-    format: "",
-    tags: ["Premium", "Limited"]
+    format: "40K puffs",
+    tags: ["Popular", "Best Seller"]
   },
   {
     id: "p-3",
-    slug: "canvas-tote",
-    name: "Canvas Tote Bag",
-    category: "Bags",
-    shortDescription: "Durable everyday tote in waxed canvas.",
+    slug: "falcon-pro",
+    name: "FALCON PRO",
+    subtitle: "JNR • Just No Reason",
+    category: "Puffs",
+    shortDescription: "Visual Impact. Falcon Series Stronger.",
     longDescription:
-      "Heavy-duty 16oz waxed canvas tote with leather handles. Water-resistant and built to last.",
-    price: 39.0,
-    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80",
-    stock: 40,
-    featured: true,
-    format: "",
-    tags: ["Popular"]
-  },
-  {
-    id: "p-4",
-    slug: "stainless-water-bottle",
-    name: "Stainless Water Bottle",
-    category: "Lifestyle",
-    shortDescription: "Double-wall insulated bottle, 500ml.",
-    longDescription:
-      "Keeps drinks cold for 24h or hot for 12h. BPA-free, leak-proof cap. Matte finish.",
-    price: 24.9,
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1200&q=80",
+      "Le Falcon Pro par JNR. Design eagle premium, écran LED, batterie rechargeable. Vapeur puissante, look unique.",
+    price: 22,
+    prices: [
+      { qty: 1, price: 22 },
+      { qty: 2, price: 38 }
+    ],
+    puffs: "25 000",
+    flavors: [
+      "Watermelon ice",
+      "Blue razz",
+      "Grape ice",
+      "Mango ice",
+      "Strawberry banana"
+    ],
+    image: "/brand/banner.jpg",
     stock: 60,
-    featured: false,
-    format: "500ml",
-    tags: ["New"]
+    featured: true,
+    format: "25K puffs",
+    tags: ["New", "Premium"]
   }
 ];
 

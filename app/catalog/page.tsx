@@ -31,7 +31,7 @@ function CatalogContent(): JSX.Element {
 
   return (
     <div className="space-y-4 pt-4">
-      <SectionTitle title="Catalogue" subtitle="Tous nos produits" />
+      <SectionTitle title="Le Menu" subtitle="Toutes nos puffs & saveurs" />
       <ProductsLoadGate loading={loading} error={error} onRetry={reload}>
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
         <FilterBar

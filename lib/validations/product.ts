@@ -1,11 +1,20 @@
-import { z } from "zod/v4";
+import { z } from "zod";
+
+const priceTierSchema = z.object({
+  qty: z.number().int().min(1),
+  price: z.number().min(0)
+});
 
 export const productCreateSchema = z.object({
   name: z.string().min(1, "Nom requis").max(120),
+  subtitle: z.string().max(120).default(""),
   category: z.string().min(1, "Catégorie requise").max(60),
   shortDescription: z.string().min(1, "Description courte requise").max(300),
   longDescription: z.string().max(2000).default(""),
   price: z.number().min(0, "Prix invalide"),
+  prices: z.array(priceTierSchema).default([]),
+  puffs: z.string().max(60).default(""),
+  flavors: z.array(z.string()).default([]),
   image: z.string().url("URL image invalide").or(z.literal("")),
   stock: z.number().int().min(0, "Stock invalide"),
   featured: z.boolean().default(false),

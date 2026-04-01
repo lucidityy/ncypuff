@@ -9,7 +9,7 @@ export function SectionTitle({ title, subtitle, className = "" }: SectionTitlePr
     <div className={`mb-5 ${className}`}>
       <div className="flex items-center gap-3">
         <span className="h-px flex-1 max-w-[24px] bg-gradient-to-r from-accent to-transparent" aria-hidden="true" />
-        <h2 className="font-display text-xl tracking-wide text-accent neon-text">
+        <h2 className="font-display text-xl font-bold tracking-tight gradient-text">
           {title}
         </h2>
         <span className="h-px flex-1 bg-gradient-to-l from-transparent via-accent/30 to-transparent" aria-hidden="true" />

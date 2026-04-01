@@ -14,27 +14,16 @@ export function AppHeader(): JSX.Element {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="sticky top-0 z-30 glass border-b border-accent/10"
     >
-      <div className="mx-auto flex w-full max-w-md items-center justify-between px-4 py-1.5">
-        <Link href="/" className="flex items-center gap-2.5">
+      <div className="mx-auto flex w-full max-w-md items-center justify-center px-4 py-3">
+        <Link href="/">
           <Image
             src={BRAND.logo}
             alt={BRAND.fullName}
-            width={36}
-            height={36}
-            className="rounded-full shadow-neon"
+            width={72}
+            height={72}
+            className="drop-shadow-[0_0_16px_rgba(168,85,247,0.4)]"
           />
-          <div className="flex flex-col">
-            <span className="font-display text-lg leading-none tracking-wide text-accent neon-text">
-              {BRAND.shortName}
-            </span>
-            <span className="text-2xs font-semibold text-foreground-muted">
-              {BRAND.fullName}
-            </span>
-          </div>
         </Link>
-        <span className="rounded-full bg-accent/15 px-2.5 py-1 text-2xs font-bold text-accent neon-border">
-          {BRAND.since}
-        </span>
       </div>
     </motion.header>
   );

@@ -1,6 +1,6 @@
 export const DEFAULT_CATEGORIES: string[] = [
-  "Clothing",
-  "Accessories",
-  "Bags",
-  "Lifestyle"
+  "Puffs",
+  "E-Liquides",
+  "Kits",
+  "Accessoires"
 ];

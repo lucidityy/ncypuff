@@ -1,35 +1,17 @@
-import { Redis } from "@upstash/redis";
 import { promises as fs } from "fs";
 import path from "path";
 
 import { PRODUCTS as SEED } from "@/data/products";
 import { DEFAULT_CATEGORIES } from "@/data/categories";
+import { getRedis, hasRedis } from "@/lib/redis";
 import type { Product } from "@/types/product";
+
+export { hasRedis };
 
 const REDIS_KEY = "app:products:v1";
 const CATEGORIES_KEY = "app:categories:v1";
 const DEV_FILE = path.join(process.cwd(), "data", "products-store.json");
 const DEV_CATEGORIES_FILE = path.join(process.cwd(), "data", "categories-store.json");
-
-let redis: Redis | null = null;
-
-function getRedisCredentials(): { url: string; token: string } | null {
-  const url = (process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL)?.trim();
-  const token = (process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN)?.trim();
-  if (!url || !token) return null;
-  return { url, token };
-}
-
-function getRedis(): Redis | null {
-  const creds = getRedisCredentials();
-  if (!creds) return null;
-  if (!redis) redis = new Redis({ url: creds.url, token: creds.token });
-  return redis;
-}
-
-export function hasRedis(): boolean {
-  return getRedisCredentials() !== null;
-}
 
 async function readDevFile(): Promise<Product[] | null> {
   try {

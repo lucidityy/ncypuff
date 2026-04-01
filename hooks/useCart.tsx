@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  createElement,
   createContext,
   useCallback,
   useContext,
@@ -141,7 +140,7 @@ export function CartProvider({ children }: { children: ReactNode }): JSX.Element
     [addItem, clearCart, removeItem, setOrderNote, state, subtotal, totalItems, updateQuantity]
   );
 
-  return createElement(CartContext.Provider, { value }, children);
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export function useCart(): CartContextValue {

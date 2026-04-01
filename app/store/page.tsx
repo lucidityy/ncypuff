@@ -4,13 +4,12 @@ import { Clock3, MapPin, MessageSquareText, Info, ShieldCheck, Settings } from "
 
 import { SectionTitle } from "@/components/shared/section-title";
 import { StoreInfoCard } from "@/components/shared/store-info-card";
-import { Button } from "@/components/ui/button";
-import { BRAND, CONTACT_LINKS } from "@/lib/constants";
+import { BRAND } from "@/lib/constants";
 
 export default function StorePage(): JSX.Element {
   return (
     <div className="space-y-5 pt-4">
-      <SectionTitle title="Notre boutique" subtitle="À propos" />
+      <SectionTitle title="PuffNcy" subtitle="À propos" />
 
       {/* Logo sticker */}
       <div className="flex justify-center">
@@ -27,7 +26,7 @@ export default function StorePage(): JSX.Element {
         <StoreInfoCard
           icon={Info}
           title="À propos"
-          description="Bienvenue dans notre boutique. Nous proposons des produits de qualité avec un service client réactif."
+          description="PuffNcy — Ton cloud, ton style. Les meilleures puffs et e-liquides, livrés rapidement."
         />
         <StoreInfoCard
           icon={MapPin}
@@ -46,23 +45,9 @@ export default function StorePage(): JSX.Element {
         />
       </div>
 
-      <div className="space-y-3">
-        <SectionTitle title="Contact" />
-        <div className="flex items-center gap-2 rounded-t-2xl bg-surface px-4 py-3 neon-border">
-          <MessageSquareText className="h-5 w-5 text-accent" strokeWidth={1.8} />
-          <span className="text-sm font-bold text-foreground-muted">Contacte-nous !</span>
-        </div>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <Button asChild>
-            <a href={CONTACT_LINKS.whatsapp} target="_blank" rel="noreferrer">💬 WhatsApp</a>
-          </Button>
-          <Button variant="outline" asChild>
-            <a href={CONTACT_LINKS.signal} target="_blank" rel="noreferrer">🔐 Signal</a>
-          </Button>
-          <Button variant="outline" asChild>
-            <a href={CONTACT_LINKS.snapchat} target="_blank" rel="noreferrer">👻 Snapchat</a>
-          </Button>
-        </div>
+      <div className="rounded-2xl bg-surface px-4 py-4 neon-border flex items-center gap-3">
+        <MessageSquareText className="h-5 w-5 shrink-0 text-accent" strokeWidth={1.8} />
+        <span className="text-sm font-bold text-foreground-muted">Contacte-nous !</span>
       </div>
 
       {/* Accès admin discret en bas */}

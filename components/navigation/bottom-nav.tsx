@@ -2,30 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, ShoppingBag, Percent, Store } from "lucide-react";
-
-import { useCart } from "@/hooks/useCart";
+import { Home, Search, Phone, Store } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Accueil", icon: Home },
-  { href: "/catalog", label: "Catalogue", icon: Search },
-  { href: "/offers", label: "Promos", icon: Percent },
-  { href: "/cart", label: "Panier", icon: ShoppingBag },
+  { href: "/catalog", label: "Menu", icon: Search },
+  { href: "/commander", label: "Commander", icon: Phone },
   { href: "/store", label: "Infos", icon: Store }
 ] as const;
 
 export function BottomNav(): JSX.Element {
   const pathname = usePathname();
-  const { totalItems: itemCount } = useCart();
 
   return (
     <nav
       aria-label="Navigation principale"
       className="fixed inset-x-0 bottom-0 z-30 glass border-t border-accent/10"
     >
-      <div className="mx-auto grid w-full max-w-md grid-cols-5">
+      <div className="mx-auto grid w-full max-w-md grid-cols-4">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
+          const isOrder = href === "/commander";
           return (
             <Link
               key={href}
@@ -37,21 +34,23 @@ export function BottomNav(): JSX.Element {
                 <Icon
                   size={20}
                   strokeWidth={active ? 2.4 : 1.6}
-                  className={`transition-all duration-200 ${active ? "text-accent drop-shadow-[0_0_8px_rgba(57,255,20,0.5)]" : "text-foreground-muted"}`}
+                  className={`transition-all duration-200 ${
+                    isOrder
+                      ? "text-accent drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+                      : active
+                        ? "text-accent drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+                        : "text-foreground-muted"
+                  }`}
                   aria-hidden="true"
                 />
-                {label === "Panier" && itemCount > 0 && (
-                  <span
-                    title="Articles dans le panier"
-                    className="absolute -right-2.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold leading-none text-background shadow-neon"
-                  >
-                    {itemCount > 99 ? "99+" : itemCount}
-                  </span>
-                )}
               </span>
               <span
                 className={`text-[10px] font-bold ${
-                  active ? "text-accent" : "text-foreground-muted"
+                  isOrder
+                    ? "text-accent"
+                    : active
+                      ? "text-accent"
+                      : "text-foreground-muted"
                 }`}
               >
                 {label}

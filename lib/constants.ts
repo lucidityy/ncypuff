@@ -1,17 +1,17 @@
 export const BRAND = {
-  shortName: "MA",
-  fullName: "My App",
-  tagline: "Your tagline here",
-  since: "Since 2024",
+  shortName: "PuffNcy",
+  fullName: "PuffNcy",
+  tagline: "Ton cloud, ton style.",
+  since: "Est. 2024",
   logo: "/brand/logo.png",
   banner: "/brand/banner.png",
   sticker: "/brand/sticker.png"
 } as const;
 
 export const CONTACT_LINKS = {
-  whatsapp: "https://wa.me/YOUR_NUMBER",
-  signal: "https://signal.me/#p/+YOUR_NUMBER",
-  snapchat: "https://www.snapchat.com/add/YOUR_USERNAME"
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/",
+  signal: process.env.NEXT_PUBLIC_SIGNAL_URL ?? "https://signal.me/",
+  snapchat: process.env.NEXT_PUBLIC_SNAPCHAT_URL ?? "https://www.snapchat.com/add/"
 } as const;
 
-export const DELIVERY_LABEL = "Delivery" as const;
+export const DELIVERY_LABEL = process.env.NEXT_PUBLIC_DELIVERY_LABEL ?? "Livraison" as const;

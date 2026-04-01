@@ -1,28 +1,12 @@
-import { Redis } from "@upstash/redis";
 import { promises as fs } from "fs";
 import path from "path";
 
 import { PROMO_CODES_SEED } from "@/data/promo-codes-seed";
+import { getRedis } from "@/lib/redis";
 import type { PromoCodeRecord } from "@/types/promo";
 
 const REDIS_KEY = "app:promo-codes:v1";
 const DEV_FILE = path.join(process.cwd(), "data", "promo-codes-store.json");
-
-let redis: Redis | null = null;
-
-function getRedisCredentials(): { url: string; token: string } | null {
-  const url = (process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL)?.trim();
-  const token = (process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN)?.trim();
-  if (!url || !token) return null;
-  return { url, token };
-}
-
-function getRedis(): Redis | null {
-  const creds = getRedisCredentials();
-  if (!creds) return null;
-  if (!redis) redis = new Redis({ url: creds.url, token: creds.token });
-  return redis;
-}
 
 async function readDevFile(): Promise<PromoCodeRecord[] | null> {
   try {
