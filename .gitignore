@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+dist
+coverage
+*.log
+*.tsbuildinfo
+.vercel
+.env
+.env.local
+.env*.local
+data/products-store.json
+data/promo-codes-store.json
+data/categories-store.json
+data/admin-password-override.json
