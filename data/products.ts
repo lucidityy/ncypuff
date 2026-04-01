@@ -84,6 +84,33 @@ export const PRODUCTS: Product[] = [
     featured: true,
     format: "25K puffs",
     tags: ["New", "Premium"]
+  },
+  {
+    id: "p-4",
+    slug: "jnr-rage-gorilla-55k",
+    name: "RAGE GORILLA 55K",
+    subtitle: "JNR • Just No Reason",
+    category: "Puffs",
+    shortDescription: "55 000 puffs • Smart Screen • Dual Mesh Coil",
+    longDescription:
+      "Le JNR Rage Gorilla. 55 000 puffs, écran intelligent, double coil mesh, 42ml d'e-liquide, batterie 950 mAh rechargeable USB-C. La bête.",
+    price: 20,
+    prices: [
+      { qty: 1, price: 20 },
+      { qty: 3, price: 50 }
+    ],
+    puffs: "55 000",
+    flavors: [
+      "Cherry cola",
+      "Myrtille framboise",
+      "Juicy pêche",
+      "White pêche razz"
+    ],
+    image: "/brand/ragejnr.jpg",
+    stock: 80,
+    featured: true,
+    format: "55K puffs",
+    tags: ["New", "Popular"]
   }
 ];
 

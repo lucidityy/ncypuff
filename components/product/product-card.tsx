@@ -231,15 +231,24 @@ export function ProductCard({ product, index = 0, onOrder }: ProductCardProps): 
 
         {/* Flavors */}
         {product.flavors?.length > 0 && (
-          <div className="space-y-2.5">
-            <div className="flex items-center gap-2">
-              <span className="h-px flex-1 bg-gradient-to-r from-accent/20 to-transparent" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-muted/50">
-                {product.flavors.length} parfums dispo
-              </p>
-              <span className="h-px flex-1 bg-gradient-to-l from-accent/20 to-transparent" />
+          <div className="space-y-2">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground-muted/50">
+              {product.flavors.length} parfum{product.flavors.length > 1 ? "s" : ""} dispo
+            </p>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1.5">
+              {product.flavors.map((flavor) => {
+                const [colorClass, emoji] = getFlavorStyle(flavor);
+                return (
+                  <span
+                    key={flavor}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-semibold ${colorClass}`}
+                  >
+                    <span aria-hidden="true">{emoji}</span>
+                    {flavor}
+                  </span>
+                );
+              })}
             </div>
-            <FlavorScroller flavors={product.flavors} />
           </div>
         )}
 

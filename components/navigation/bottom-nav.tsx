@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Phone, Store } from "lucide-react";
+import { Home, Phone, Store } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Accueil", icon: Home },
-  { href: "/catalog", label: "Menu", icon: Search },
   { href: "/commander", label: "Commander", icon: Phone },
   { href: "/store", label: "Infos", icon: Store }
 ] as const;
@@ -19,7 +18,7 @@ export function BottomNav(): JSX.Element {
       aria-label="Navigation principale"
       className="fixed inset-x-0 bottom-0 z-30 glass border-t border-accent/10"
     >
-      <div className="mx-auto grid w-full max-w-md grid-cols-4">
+      <div className="mx-auto grid w-full max-w-md grid-cols-3">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           const isOrder = href === "/commander";
