@@ -45,13 +45,16 @@ export function ProductCardCompact({
 }: ProductCardCompactProps): JSX.Element {
   const isOutOfStock = product.stock === 0;
 
+  const shineDelay = `${index * 1.2}s`;
+  const glowDelay  = `${index * 0.75}s`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
-      className="overflow-hidden rounded-2xl bg-surface flex flex-col"
-      style={{ boxShadow: "0 0 0 1px rgba(168,85,247,0.1), 0 4px 16px rgba(0,0,0,0.35)" }}
+      className="overflow-hidden rounded-2xl bg-surface flex flex-col card-glow-pulse"
+      style={{ animationDelay: glowDelay }}
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-surface-raised">
@@ -72,14 +75,24 @@ export function ProductCardCompact({
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-surface/90 via-surface/20 to-transparent" />
 
+        {/* Light sweep ray */}
+        <div className="card-shine-overlay" style={{ "--shine-delay": shineDelay } as React.CSSProperties}>
+          <div style={{ animationDelay: shineDelay, position: "absolute", inset: 0,
+            background: "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.07) 40%, rgba(255,255,255,0.13) 50%, rgba(255,255,255,0.07) 60%, transparent 80%)",
+            animation: `card-shine 5s ease-in-out ${shineDelay} infinite`,
+            willChange: "transform"
+          }} />
+        </div>
+
         {/* Puffs badge */}
         {product.puffs && (
           <div
-            className="absolute top-2 right-2 flex items-center gap-0.5 rounded-lg px-2 py-1"
+            className="absolute top-2 right-2 flex items-center gap-0.5 rounded-lg px-2 py-1 badge-spark"
             style={{
               background: "rgba(168,85,247,0.22)",
               border: "1px solid rgba(168,85,247,0.35)",
-              backdropFilter: "blur(6px)"
+              backdropFilter: "blur(6px)",
+              animationDelay: glowDelay
             }}
           >
             <span className="font-display text-xs font-extrabold text-accent" style={{ textShadow: "0 0 8px rgba(168,85,247,0.7)" }}>
@@ -139,7 +152,8 @@ export function ProductCardCompact({
           <button
             onClick={onOrder}
             disabled={isOutOfStock}
-            className="mt-auto w-full rounded-xl bg-accent py-2 text-xs font-bold text-background shadow-neon transition-all hover:shadow-neon-lg active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="mt-auto w-full rounded-xl py-2 text-xs font-bold text-white btn-shimmer shadow-neon transition-all hover:shadow-neon-lg active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{ animationDelay: glowDelay }}
           >
             Commander
           </button>
