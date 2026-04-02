@@ -98,7 +98,7 @@ export const PRODUCTS: Product[] = [
       { qty: 1, price: 22 },
       { qty: 2, price: 38 }
     ],
-    puffs: "25 000",
+    puffs: "28 000",
     flavors: [
       "Watermelon ice",
       "Blue razz",
@@ -109,7 +109,7 @@ export const PRODUCTS: Product[] = [
     image: "/brand/banner.jpg",
     stock: 60,
     featured: true,
-    format: "25K puffs",
+    format: "28K puffs",
     tags: ["New", "Premium"]
   }
 ];
