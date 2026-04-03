@@ -15,8 +15,8 @@ export const productCreateSchema = z.object({
   prices: z.array(priceTierSchema).default([]),
   puffs: z.string().max(60).default(""),
   flavors: z.array(z.string()).default([]),
-  image: z.string().url("URL image invalide").or(z.literal("")),
-  stock: z.number().int().min(0, "Stock invalide"),
+  image: z.string().refine((v) => v === "" || /^https?:\/\/.+/i.test(v) || /^\/\S+/.test(v), "URL image invalide").default(""),
+  imagePosition: z.string().max(10).default("50%"),
   featured: z.boolean().default(false),
   format: z.string().max(60).default(""),
   tags: z.array(z.string()).default([])

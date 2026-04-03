@@ -59,10 +59,60 @@ html {
   50%       { box-shadow: 0 0 14px rgba(168,85,247,0.8), 0 0 28px rgba(168,85,247,0.35); border-color: rgba(168,85,247,0.9); }
 }
 
+/* Gradient text shimmer — defined here to guarantee CSS output */
+@keyframes shimmer-x {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 /* Commander button shimmer */
 @keyframes btn-shimmer {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
+}
+
+/* Tier glow pulse — brand color via --glow-r/g/b */
+@keyframes tier-glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.2),
+      0 0 8px  rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.08),
+      inset 0 0 12px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.03);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.55),
+      0 0 22px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.28),
+      inset 0 0 20px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.08);
+  }
+}
+
+.tier-glow {
+  animation: tier-glow-pulse 2.8s ease-in-out infinite;
+}
+
+/* Tier row glass shimmer */
+@keyframes tier-shimmer {
+  0%   { transform: translateX(-120%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+.tier-shimmer::after {
+  content: "";
+  position: absolute;
+  inset-y: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 100%
+  );
+  animation: tier-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 body {
@@ -179,9 +229,18 @@ select {
 
 @layer utilities {
   .glass {
-    background: rgba(8, 6, 15, 0.82);
-    backdrop-filter: blur(24px) saturate(1.5);
-    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.06) 0%,
+      rgba(8, 6, 15, 0.4) 40%,
+      rgba(236, 72, 153, 0.04) 100%
+    );
+    backdrop-filter: blur(32px) saturate(1.8) brightness(1.05);
+    -webkit-backdrop-filter: blur(32px) saturate(1.8) brightness(1.05);
+    box-shadow:
+      0 1px 0 rgba(168, 85, 247, 0.15) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+      0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
   .neon-border {
@@ -202,12 +261,15 @@ select {
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, #c084fc 0%, #ec4899 45%, #a855f7 100%);
-    background-size: 200% auto;
+    background: linear-gradient(120deg, #fff 0%, #e9d5ff 15%, #c084fc 35%, #ec4899 55%, #a855f7 75%, #e9d5ff 90%, #fff 100%);
+    background-size: 300% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: shimmer-x 4s linear infinite;
+    animation: shimmer-x 2.5s linear infinite;
+    filter: drop-shadow(0 0 12px rgba(168,85,247,0.9))
+            drop-shadow(0 0 30px rgba(236,72,153,0.6))
+            drop-shadow(0 0 60px rgba(168,85,247,0.4));
   }
 
   .animate-float {
@@ -272,6 +334,17 @@ select {
       #a855f7 100%
     );
     background-size: 200% auto;
-    animation: btn-shimmer 3s linear infinite;
+    animation: btn-shimmer 6s linear infinite;
+  }
+}
+
+/* Respect prefers-reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

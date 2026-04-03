@@ -24,7 +24,9 @@ export async function PUT(
 
   const parsed = productUpdateSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    const fields = parsed.error.flatten().fieldErrors;
+    const msg = Object.entries(fields).map(([k, v]) => `${k}: ${v?.join(", ")}`).join(" | ");
+    return NextResponse.json({ error: msg || "Données invalides" }, { status: 400 });
   }
 
   const products = await getProducts();
@@ -59,7 +61,6 @@ export async function PUT(
     puffs: updates.puffs ?? existing.puffs,
     flavors: updates.flavors ?? existing.flavors,
     image: updates.image ?? existing.image,
-    stock: updates.stock ?? existing.stock,
     featured: updates.featured ?? existing.featured,
     format: updates.format ?? existing.format,
     tags: (updates.tags ?? existing.tags) as Product["tags"],

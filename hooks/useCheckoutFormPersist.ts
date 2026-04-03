@@ -8,7 +8,7 @@ import type { CheckoutFormValues, ContactMethod } from "@/types/checkout";
 const SAVE_DEBOUNCE_MS = 450;
 
 /**
- * Hydrate depuis localStorage + prénom Telegram ; sauvegarde le brouillon (debounce).
+ * Hydrate depuis localStorage ; sauvegarde le brouillon (debounce).
  * `orderNoteFromCart` : valeur au premier montage (synchronise le panier).
  */
 export function useCheckoutFormPersist(
@@ -20,8 +20,6 @@ export function useCheckoutFormPersist(
   hydrated: boolean;
 } {
   const [form, setForm] = useState<CheckoutFormValues>(() => ({
-    firstName: "",
-    phone: "",
     address: "",
     note: orderNoteFromCart,
     preferredContactMethod: "whatsapp"
@@ -33,23 +31,12 @@ export function useCheckoutFormPersist(
   useEffect(() => {
     const draft = readCheckoutDraft();
 
-    setForm((prev) => {
-      const merged: CheckoutFormValues = {
-        firstName:
-          draft?.firstName !== undefined && String(draft.firstName).length > 0
-            ? draft.firstName
-            : prev.firstName,
-        phone: draft?.phone ?? prev.phone,
-        address: draft?.address ?? prev.address,
-        note:
-          draft?.note !== undefined
-            ? draft.note
-            : prev.note || initialNoteRef.current,
-        preferredContactMethod:
-          (draft?.preferredContactMethod as ContactMethod | undefined) ?? prev.preferredContactMethod
-      };
-      return merged;
-    });
+    setForm((prev) => ({
+      address: draft?.address ?? prev.address,
+      note: draft?.note !== undefined ? draft.note : prev.note || initialNoteRef.current,
+      preferredContactMethod:
+        (draft?.preferredContactMethod as ContactMethod | undefined) ?? prev.preferredContactMethod,
+    }));
     setHydrated(true);
   }, []);
 
@@ -68,11 +55,9 @@ export function useCheckoutFormPersist(
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
       writeCheckoutDraft({
-        firstName: form.firstName,
-        phone: form.phone,
         address: form.address,
         note: form.note ?? "",
-        preferredContactMethod: form.preferredContactMethod
+        preferredContactMethod: form.preferredContactMethod,
       });
     }, SAVE_DEBOUNCE_MS);
     return () => {

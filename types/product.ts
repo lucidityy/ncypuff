@@ -26,7 +26,8 @@ export interface Product {
   puffs: string;
   flavors: string[];
   image: string;
-  stock: number;
+  /** Vertical focal point for object-cover images. "0%" = top, "50%" = center, "100%" = bottom */
+  imagePosition?: string;
   featured: boolean;
   format: string;
   tags: ProductTag[];

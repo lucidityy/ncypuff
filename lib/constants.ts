@@ -8,6 +8,14 @@ export const BRAND = {
   sticker: "/brand/sticker.png"
 } as const;
 
+export const CONTACT = {
+  phone: "07 47 34 64 19",
+  whatsappUrl: process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/message/6S23V2YKFYE4E1",
+  get smsUrl() {
+    return `sms:+33${this.phone.replace(/\s/g, "").slice(1)}`;
+  },
+} as const;
+
 export const CONTACT_LINKS = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/",
   signal: process.env.NEXT_PUBLIC_SIGNAL_URL ?? "https://signal.me/",

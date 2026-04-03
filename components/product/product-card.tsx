@@ -159,6 +159,7 @@ export function ProductCard({ product, index = 0, onOrder }: ProductCardProps): 
           alt={product.name}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 ease-smooth hover:scale-[1.03]"
+          style={{ objectPosition: `center ${product.imagePosition ?? "50%"}` }}
         />
         {/* gradient bottom */}
         <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />

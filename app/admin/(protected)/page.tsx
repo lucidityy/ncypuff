@@ -6,7 +6,6 @@ import { Plus, Package } from "lucide-react";
 
 import { SectionTitle } from "@/components/shared/section-title";
 import { EmptyState } from "@/components/shared/empty-state";
-import { CategoryManager } from "@/components/admin/category-manager";
 import { AdminPasswordForm } from "@/components/admin/admin-password-form";
 import { AdminPromoSection } from "@/components/admin/admin-promo-section";
 import { Badge } from "@/components/ui/badge";
@@ -15,16 +14,6 @@ import { fetchJson } from "@/lib/fetch-json";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types/product";
 
-function stockColor(stock: number): string {
-  if (stock === 0) return "text-red-400";
-  if (stock <= 20) return "text-orange-400";
-  return "text-accent";
-}
-
-function stockLabel(stock: number): string {
-  if (stock === 0) return "Rupture";
-  return `${stock} dispo`;
-}
 
 export default function AdminPage(): JSX.Element {
   const [products, setProducts] = useState<Product[]>([]);
@@ -114,16 +103,11 @@ export default function AdminPage(): JSX.Element {
                 <span className="text-sm font-bold text-accent">
                   {formatPrice(product.price)}
                 </span>
-                <span className={`text-xs font-semibold ${stockColor(product.stock)}`}>
-                  {stockLabel(product.stock)}
-                </span>
               </div>
             </div>
           </Link>
         ))}
       </div>
-
-      <CategoryManager />
 
       <section className="space-y-3">
         <SectionTitle title="Sécurité" subtitle="Connexion admin" />

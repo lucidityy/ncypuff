@@ -7,6 +7,7 @@ import { AppHeader } from "@/components/layout/app-header";
 import { MainShell } from "@/components/layout/main-shell";
 import { BottomNav } from "@/components/navigation/bottom-nav";
 import { CartProvider } from "@/hooks/useCart";
+import { ProductsProvider } from "@/hooks/useProductsContext";
 import { BRAND } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -18,8 +19,6 @@ export const viewport: Viewport = {
   themeColor: "#08060f",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false
 };
 
 export default function RootLayout({ children }: { children: ReactNode }): JSX.Element {
@@ -33,9 +32,11 @@ export default function RootLayout({ children }: { children: ReactNode }): JSX.E
         <div className="bg-scanline" aria-hidden="true" />
 
         <CartProvider>
-          <AppHeader />
-          <MainShell>{children}</MainShell>
-          <BottomNav />
+          <ProductsProvider>
+            <AppHeader />
+            <MainShell>{children}</MainShell>
+            <BottomNav />
+          </ProductsProvider>
         </CartProvider>
       </body>
     </html>

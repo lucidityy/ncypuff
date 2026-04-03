@@ -21,7 +21,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const parsed = productCreateSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    const fields = parsed.error.flatten().fieldErrors;
+    const msg = Object.entries(fields).map(([k, v]) => `${k}: ${v?.join(", ")}`).join(" | ");
+    return NextResponse.json({ error: msg || "Données invalides" }, { status: 400 });
   }
 
   const products = await getProducts();
@@ -42,7 +44,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     puffs: parsed.data.puffs ?? "",
     flavors: parsed.data.flavors ?? [],
     image: parsed.data.image || "",
-    stock: parsed.data.stock,
     featured: parsed.data.featured ?? false,
     format: parsed.data.format ?? "",
     tags: (parsed.data.tags ?? []) as Product["tags"]

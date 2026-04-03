@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { CheckCircle2, PackageX, ArrowLeft, PackageSearch, ShoppingBag, Zap, Droplets } from "lucide-react";
+import { ArrowLeft, PackageSearch, ShoppingBag, Zap, Droplets } from "lucide-react";
 
 import { ProductGrid } from "@/components/product/product-grid";
 import { ProductsLoadGate } from "@/components/product/products-load-gate";
@@ -14,7 +14,7 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
-import { useProducts } from "@/hooks/useProducts";
+import { useProductsContext } from "@/hooks/useProductsContext";
 import { formatQuantity, formatPrice } from "@/lib/format";
 import type { Product } from "@/types/product";
 
@@ -22,7 +22,7 @@ export default function ProductDetailPage(): JSX.Element {
   const params = useParams<{ slug: string }>();
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-  const { products, loading, error, reload } = useProducts();
+  const { products, loading, error, reload } = useProductsContext();
 
   const product = products.find((p) => p.slug === params.slug);
 
@@ -66,8 +66,6 @@ function ProductDetailContent({
   addItem: ReturnType<typeof useCart>["addItem"];
 }): JSX.Element {
 
-  const inStock = product.stock > 0;
-
   return (
     <motion.div
       className="space-y-5"
@@ -81,7 +79,7 @@ function ProductDetailContent({
 
       <div className="relative -mx-4 aspect-square overflow-hidden rounded-b-3xl bg-surface">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+        <img src={product.image} alt={product.name} className="h-full w-full object-cover" style={{ objectPosition: `center ${product.imagePosition ?? "50%"}` }} />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
 
         {product.puffs && (
@@ -142,28 +140,12 @@ function ProductDetailContent({
         </div>
       )}
 
-      <div className="space-y-3 rounded-2xl bg-surface p-4 neon-border">
-        <h2 className="font-display text-base font-bold tracking-tight text-accent">Détails</h2>
-        <p className="text-sm leading-relaxed text-foreground-muted">{product.longDescription}</p>
-        <div className="flex gap-4 border-t border-accent/10 pt-3">
-          <div>
-            <span className="text-xs font-semibold text-foreground-muted">Stock</span>
-            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
-              {inStock ? (
-                <>
-                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                  <span className="text-sm font-bold uppercase tracking-wide text-accent">EN STOCK</span>
-                </>
-              ) : (
-                <>
-                  <PackageX className="h-3.5 w-3.5 text-red-400" aria-hidden="true" />
-                  <span className="text-sm font-bold text-red-400">Rupture</span>
-                </>
-              )}
-            </div>
-          </div>
+      {product.longDescription && (
+        <div className="rounded-2xl bg-surface p-4 neon-border">
+          <h2 className="mb-2 font-display text-base font-bold tracking-tight text-accent">Détails</h2>
+          <p className="text-sm leading-relaxed text-foreground-muted">{product.longDescription}</p>
         </div>
-      </div>
+      )}
 
       <div className="rounded-2xl border border-accent/20 bg-gradient-to-b from-surface to-surface-raised/90 p-4 shadow-glow neon-border">
         <div className="mb-4 flex items-end justify-between gap-3">
@@ -174,14 +156,13 @@ function ProductDetailContent({
             </p>
             <p className="text-2xs text-foreground-muted">pour {formatQuantity(quantity)}</p>
           </div>
-          <QuantitySelector quantity={quantity} onChange={setQuantity} max={product.stock} unit="" />
+          <QuantitySelector quantity={quantity} onChange={setQuantity} max={99} unit="" />
         </div>
         <Button
           type="button"
           size="lg"
           className="h-14 w-full gap-2.5 font-display text-base font-bold tracking-tight shadow-neon"
           onClick={() => addItem(product, quantity)}
-          disabled={!inStock}
         >
           <ShoppingBag className="h-5 w-5 shrink-0" strokeWidth={2.2} aria-hidden="true" />
           Ajouter au panier

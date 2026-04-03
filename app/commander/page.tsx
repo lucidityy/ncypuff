@@ -5,10 +5,7 @@ import { motion } from "framer-motion";
 import { MessageCircle, Copy, Check } from "lucide-react";
 import { useState } from "react";
 
-import { BRAND } from "@/lib/constants";
-
-const PHONE = "07 47 34 64 19";
-const PHONE_TEL = "tel:+33747346419";
+import { BRAND, CONTACT } from "@/lib/constants";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -25,7 +22,7 @@ export default function CommanderPage(): JSX.Element {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(PHONE.replace(/\s/g, ""));
+      await navigator.clipboard.writeText(CONTACT.phone.replace(/\s/g, ""));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -71,13 +68,13 @@ export default function CommanderPage(): JSX.Element {
               <MessageCircle size={22} className="text-accent" strokeWidth={2} />
             </div>
             <span className="font-display text-2xl font-extrabold tracking-wide text-foreground">
-              {PHONE}
+              {CONTACT.phone}
             </span>
           </div>
 
           {/* WhatsApp — primary */}
           <a
-            href="https://wa.me/message/6S23V2YKFYE4E1"
+            href={CONTACT.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white transition-all duration-200 hover:brightness-110 active:scale-95"
@@ -93,7 +90,7 @@ export default function CommanderPage(): JSX.Element {
         {/* SMS + Copy — secondary row */}
         <div className="flex gap-2">
           <a
-            href="sms:+33747346419"
+            href={CONTACT.smsUrl}
             className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-accent/10 py-3 text-sm font-semibold text-accent neon-border transition-all duration-200 hover:bg-accent/20 active:scale-95"
           >
             <MessageCircle size={15} strokeWidth={2.5} />

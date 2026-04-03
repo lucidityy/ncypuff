@@ -7,10 +7,10 @@ import type { Product } from "@/types/product";
 export type SortOption = "featured" | "price-asc" | "price-desc" | "name";
 
 export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "featured", label: "Featured" },
-  { value: "price-asc", label: "Price ↑" },
-  { value: "price-desc", label: "Price ↓" },
-  { value: "name", label: "Name (A–Z)" }
+  { value: "featured", label: "Populaires" },
+  { value: "price-asc", label: "Prix ↑" },
+  { value: "price-desc", label: "Prix ↓" },
+  { value: "name", label: "Nom (A–Z)" }
 ];
 
 const VALID_SORTS = new Set<string>(SORT_OPTIONS.map((o) => o.value));

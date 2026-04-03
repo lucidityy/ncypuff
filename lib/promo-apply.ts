@@ -18,7 +18,7 @@ function roundMoney(n: number): number {
   return Math.round(n * 100) / 100;
 }
 
-export type PromoProductSlice = Pick<Product, "id" | "price" | "name" | "stock">;
+export type PromoProductSlice = Pick<Product, "id" | "price" | "name">;
 
 /**
  * Applique un code promo à partir de la liste persistée (codes actifs uniquement).
@@ -57,9 +57,7 @@ export function applyPromoCode(
     if (!p) {
       return { ok: false, error: "Produit offert indisponible." };
     }
-    if (p.stock < def.value) {
-      return { ok: false, error: "Stock insuffisant pour cet échantillon." };
-    }
+
     const unitValue = roundMoney(p.price * def.value);
     discount = roundMoney(Math.min(unitValue, subtotal));
     sampleLine = `Échantillon : ${formatQuantity(def.value)} · ${p.name}`;

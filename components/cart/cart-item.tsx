@@ -58,7 +58,7 @@ export function CartItem({ item, onQuantityChange, onRemove }: CartItemProps): J
               <QuantitySelector
                 layout="inline"
                 quantity={item.quantity}
-                max={item.product.stock}
+                max={99}
                 onChange={onQuantityChange}
                 unit="g"
               />

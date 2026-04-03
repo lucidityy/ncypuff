@@ -30,6 +30,28 @@ const FLAVOR_EMOJI: [string, string][] = [
   ["blue", "💙"],
 ];
 
+/** Flavor keyword → [emoji, bg color] */
+const FLAVOR_COLORS: [string, string][] = [
+  ["watermelon", "rgba(239,68,68,0.12)"],   ["pastèque", "rgba(239,68,68,0.12)"],
+  ["strawberry", "rgba(244,63,94,0.12)"],   ["fraise", "rgba(244,63,94,0.12)"],
+  ["cherry", "rgba(220,38,38,0.12)"],        ["cerise", "rgba(220,38,38,0.12)"],
+  ["mango", "rgba(251,146,60,0.12)"],        ["mangue", "rgba(251,146,60,0.12)"],
+  ["peach", "rgba(249,115,22,0.12)"],        ["pêche", "rgba(249,115,22,0.12)"],
+  ["banana", "rgba(234,179,8,0.12)"],        ["citron", "rgba(234,179,8,0.12)"], ["lemon", "rgba(234,179,8,0.12)"],
+  ["pineapple", "rgba(234,179,8,0.12)"],     ["ananas", "rgba(234,179,8,0.12)"],
+  ["blueberry", "rgba(99,102,241,0.14)"],    ["myrtille", "rgba(99,102,241,0.14)"],
+  ["grape", "rgba(139,92,246,0.14)"],        ["raisin", "rgba(139,92,246,0.14)"],
+  ["lychee", "rgba(236,72,153,0.12)"],       ["litchi", "rgba(236,72,153,0.12)"],
+  ["passion", "rgba(168,85,247,0.12)"],
+  ["mint", "rgba(52,211,153,0.12)"],         ["menthe", "rgba(52,211,153,0.12)"],
+  ["ice", "rgba(147,197,253,0.10)"],         ["glace", "rgba(147,197,253,0.10)"],
+  ["cola", "rgba(120,53,15,0.18)"],
+  ["bubble", "rgba(251,207,232,0.08)"],      ["gum", "rgba(251,207,232,0.08)"],
+  ["vanilla", "rgba(253,230,138,0.10)"],     ["vanille", "rgba(253,230,138,0.10)"],
+  ["coconut", "rgba(255,255,255,0.06)"],
+  ["blue", "rgba(59,130,246,0.12)"],
+];
+
 function getFlavorEmoji(flavor: string): string {
   const lower = flavor.toLowerCase();
   for (const [key, emoji] of FLAVOR_EMOJI) {
@@ -38,13 +60,19 @@ function getFlavorEmoji(flavor: string): string {
   return "✨";
 }
 
+function getFlavorBg(flavor: string): string {
+  const lower = flavor.toLowerCase();
+  for (const [key, color] of FLAVOR_COLORS) {
+    if (lower.includes(key)) return color;
+  }
+  return "rgba(255,255,255,0.04)";
+}
+
 export function ProductCardCompact({
   product,
   index = 0,
   onOrder
 }: ProductCardCompactProps): JSX.Element {
-  const isOutOfStock = product.stock === 0;
-
   const shineDelay = `${index * 1.2}s`;
   const glowDelay  = `${index * 0.75}s`;
 
@@ -65,6 +93,7 @@ export function ProductCardCompact({
             alt={product.name}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 ease-smooth hover:scale-[1.04]"
+            style={{ objectPosition: `center ${product.imagePosition ?? "50%"}` }}
           />
         ) : (
           <div className="h-full w-full flex items-center justify-center text-foreground-muted/20">
@@ -101,15 +130,6 @@ export function ProductCardCompact({
           </div>
         )}
 
-        {/* Out of stock */}
-        {isOutOfStock && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
-            <span className="rounded-xl bg-surface/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground-muted">
-              Rupture
-            </span>
-          </div>
-        )}
-
         {/* Name bottom */}
         <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
           <p className="font-display text-sm font-extrabold leading-tight text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)] line-clamp-2">
@@ -138,7 +158,8 @@ export function ProductCardCompact({
             {product.flavors.map((f) => (
               <div
                 key={f}
-                className="flex items-center gap-1.5 rounded-lg bg-white/5 px-2 py-1"
+                className="flex items-center gap-1.5 rounded-lg px-2 py-1"
+                style={{ background: getFlavorBg(f) }}
               >
                 <span className="text-sm leading-none" aria-hidden="true">{getFlavorEmoji(f)}</span>
                 <span className="text-[11px] font-semibold text-foreground/90 leading-tight">{f}</span>
@@ -151,8 +172,7 @@ export function ProductCardCompact({
         {onOrder && (
           <button
             onClick={onOrder}
-            disabled={isOutOfStock}
-            className="mt-auto w-full rounded-xl py-2 text-xs font-bold text-white btn-shimmer shadow-neon transition-all hover:shadow-neon-lg active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="mt-auto w-full rounded-xl py-2 text-xs font-bold text-white btn-shimmer shadow-neon transition-all hover:shadow-neon-lg active:scale-[0.97]"
             style={{ animationDelay: glowDelay }}
           >
             Commander

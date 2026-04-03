@@ -3,8 +3,6 @@ import type { ContactMethod } from "@/types/checkout";
 const STORAGE_KEY = "mini-app-checkout-draft";
 
 export interface CheckoutDraftPayload {
-  firstName: string;
-  phone: string;
   address: string;
   note: string;
   preferredContactMethod: ContactMethod;
@@ -22,8 +20,6 @@ export function readCheckoutDraft(): Partial<CheckoutDraftPayload> | null {
     const obj = parsed as Record<string, unknown>;
 
     const draft: Partial<CheckoutDraftPayload> = {};
-    if (typeof obj.firstName === "string") draft.firstName = obj.firstName;
-    if (typeof obj.phone === "string") draft.phone = obj.phone;
     if (typeof obj.address === "string") draft.address = obj.address;
     if (typeof obj.note === "string") draft.note = obj.note;
     if (typeof obj.preferredContactMethod === "string" && VALID_METHODS.has(obj.preferredContactMethod)) {

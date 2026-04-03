@@ -6,11 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { ProductGrid } from "@/components/product/product-grid";
 import { ProductsLoadGate } from "@/components/product/products-load-gate";
 import { SectionTitle } from "@/components/shared/section-title";
-import { useProducts } from "@/hooks/useProducts";
+import { useProductsContext } from "@/hooks/useProductsContext";
 import { useFilters } from "@/hooks/useFilters";
 
 function CatalogContent(): JSX.Element {
-  const { products, loading, error, reload } = useProducts();
+  const { products, loading, error, reload } = useProductsContext();
   const searchParams = useSearchParams();
   const { setActiveCategory, filteredProducts } = useFilters(products);
 

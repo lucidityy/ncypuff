@@ -33,6 +33,19 @@ const defaultState: CartState = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function isValidCartItem(item: unknown): item is CartItem {
+  if (typeof item !== "object" || item === null) return false;
+  const i = item as Record<string, unknown>;
+  return (
+    typeof i.quantity === "number" &&
+    i.quantity > 0 &&
+    typeof i.product === "object" &&
+    i.product !== null &&
+    typeof (i.product as Record<string, unknown>).id === "string" &&
+    typeof (i.product as Record<string, unknown>).price === "number"
+  );
+}
+
 function readStoredState(): CartState {
   if (typeof window === "undefined") return defaultState;
   try {
@@ -45,7 +58,11 @@ function readStoredState(): CartState {
       "items" in parsed &&
       Array.isArray((parsed as CartState).items)
     ) {
-      return parsed as CartState;
+      const validItems = ((parsed as CartState).items as unknown[]).filter(isValidCartItem);
+      return {
+        items: validItems,
+        orderNote: typeof (parsed as CartState).orderNote === "string" ? (parsed as CartState).orderNote : "",
+      };
     }
     return defaultState;
   } catch {
@@ -75,14 +92,13 @@ export function CartProvider({ children }: { children: ReactNode }): JSX.Element
     setState((prev) => {
       const existing = prev.items.find((i) => i.product.id === product.id);
       if (!existing) {
-        const capped = Math.min(quantity, product.stock);
-        return { ...prev, items: [...prev.items, { product, quantity: Math.max(1, capped) }] };
+        return { ...prev, items: [...prev.items, { product, quantity: Math.max(1, quantity) }] };
       }
       return {
         ...prev,
         items: prev.items.map((i) =>
           i.product.id === product.id
-            ? { ...i, quantity: Math.min(i.quantity + quantity, product.stock) }
+            ? { ...i, quantity: i.quantity + quantity }
             : i
         )
       };
@@ -102,7 +118,7 @@ export function CartProvider({ children }: { children: ReactNode }): JSX.Element
       items: prev.items
         .map((i) => {
           if (i.product.id !== productId) return i;
-          return { ...i, quantity: Math.max(1, Math.min(quantity, i.product.stock)) };
+          return { ...i, quantity: Math.max(1, quantity) };
         })
         .filter((i) => i.quantity > 0)
     }));

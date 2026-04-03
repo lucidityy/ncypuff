@@ -228,7 +228,7 @@ export function PromoManager({ embedded = false }: PromoManagerProps): JSX.Eleme
                     <option value="">— Choisir un produit —</option>
                     {products.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {p.name} · {formatQuantity(p.stock)}
+                        {p.name}
                       </option>
                     ))}
                   </select>
