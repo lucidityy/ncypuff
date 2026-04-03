@@ -29,7 +29,7 @@ export default function EditProductPage(): JSX.Element {
         setLoadError(result.error);
         setProduct(null);
       } else if (!Array.isArray(result.data.products)) {
-        setLoadError("Données invalides");
+        setLoadError("Donn├®es invalides");
         setProduct(null);
       } else {
         setProduct(result.data.products.find((p) => p.id === params.id) ?? null);
@@ -66,7 +66,7 @@ export default function EditProductPage(): JSX.Element {
   }, [params.id, router]);
 
   if (loading) {
-    return <p className="px-4 pt-8 text-sm text-foreground-muted">Chargement…</p>;
+    return <p className="px-4 pt-8 text-sm text-foreground-muted">ChargementÔÇª</p>;
   }
 
   if (loadError) {
@@ -95,7 +95,7 @@ export default function EditProductPage(): JSX.Element {
         <EmptyState
           icon={PackageSearch}
           title="Produit introuvable"
-          description="Ce produit n'existe pas ou a été supprimé."
+          description="Ce produit n'existe pas ou a ├®t├® supprim├®."
         />
       </div>
     );
